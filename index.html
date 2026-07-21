@@ -1006,7 +1006,11 @@
     };
     document.getElementById("closeAdminBtn").onclick = () => document.getElementById("adminModal").style.display = "none";
     
-    renderProducts("Все");
+   renderProducts("Все");
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
 </script>
 </body>
 </html>
