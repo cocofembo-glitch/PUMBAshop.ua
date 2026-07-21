@@ -1,0 +1,23 @@
+{
+  "name": "PUMBAshop.ua | Стиль, що обирають",
+  "short_name": "PUMBAshop",
+  "description": "Якість, стиль та швидка доставка по всій країні",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme-color": "#0c0f1c",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'><rect width='512' height='512' rx='120' fill='%230c0f1c'/><circle cx='256' cy='256' r='200' fill='none' stroke='%23d4af37' stroke-width='12'/><circle cx='256' cy='256' r='185' fill='none' stroke='%23d4af37' stroke-width='4'/><text x='256' y='320' font-family='Georgia, serif' font-size='190' font-weight='bold' fill='%23d4af37' text-anchor='middle'>PS</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192' width='192' height='192'><rect width='192' height='192' rx='45' fill='%230c0f1c'/><circle cx='96' cy='96' r='75' fill='none' stroke='%23d4af37' stroke-width='5'/><text x='96' y='120' font-family='Georgia, serif' font-size='70' font-weight='bold' fill='%23d4af37' text-anchor='middle'>PS</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
