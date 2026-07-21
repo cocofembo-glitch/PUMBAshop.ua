@@ -507,6 +507,7 @@
             <a data-gender="kids">Дітям</a>
             <div class="auth-buttons" id="authButtons">
                 <button class="auth-btn" id="loginBtn">Вхід</button>
+                <button id="installAppBtn" style="display: none;" class="auth-btn">📱 Встановити як додаток</button>
                 <button class="auth-btn" id="registerBtn">Реєстрація</button>
             </div>
             <div id="userInfo" style="display: none;">
@@ -1008,9 +1009,32 @@
     
    renderProducts("Все");
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
+let deferredPrompt;
+  const installBtn = document.getElementById('installAppBtn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) installBtn.style.display = 'inline-block';
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          console.log('Пользователь установил приложение');
+        }
+        deferredPrompt = null;
+        installBtn.style.display = 'none';
+      }
+    });
+  }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
 </script>
 </body>
 </html>
