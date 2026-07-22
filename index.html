@@ -1012,12 +1012,25 @@
 let deferredPrompt;
   const installBtn = document.getElementById('installAppBtn');
 
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (installBtn) installBtn.style.display = 'inline-block';
-  });
+  // 1. Проверяем, запущен ли сайт УЖЕ как установленное приложение
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  
+  // 2. Проверяем, сохранили ли мы флаг, что приложение уже скачано
+  const isInstalled = localStorage.getItem('pwaInstalled') === 'true';
 
+  // Если уже установлено или открыто как приложение — кнопка не нужна
+  if (isStandalone || isInstalled) {
+    if (installBtn) installBtn.style.display = 'none';
+  } else {
+    // Ловим событие готовности к установке
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (installBtn) installBtn.style.display = 'inline-block';
+    });
+  }
+
+  // Обработка клика по кнопке
   if (installBtn) {
     installBtn.addEventListener('click', async () => {
       if (deferredPrompt) {
@@ -1025,16 +1038,25 @@ let deferredPrompt;
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           console.log('Пользователь установил приложение');
+          localStorage.setItem('pwaInstalled', 'true'); // Запоминаем факт установки
+          installBtn.style.display = 'none';
         }
         deferredPrompt = null;
-        installBtn.style.display = 'none';
       }
     });
   }
 
+  // 3. Ловим событие успешной установки (если установили не через нашу кнопку, а через меню браузера)
+  window.addEventListener('appinstalled', () => {
+    localStorage.setItem('pwaInstalled', 'true');
+    if (installBtn) installBtn.style.display = 'none';
+  });
+
+  // Регистрация Service Worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
   }
+
 </script>
 </body>
 </html>
